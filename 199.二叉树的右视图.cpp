@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=144 lang=cpp
+ * @lc app=leetcode.cn id=199 lang=cpp
  *
- * [144] 二叉树的前序遍历
+ * [199] 二叉树的右视图
  */
 
 // @lc code=start
@@ -18,18 +18,18 @@
  */
 class Solution {
 public:
-    vector<int> preorderTraversal(TreeNode* root) {
+    vector<int> rightSideView(TreeNode* root) {
+        queue<TreeNode*> q;
         vector<int> ans;
-        stack<TreeNode*> s;
-        auto* cur = root;
-        while (!s.empty() || cur) {
-            if (cur) {
-                ans.push_back(cur->val);
-                s.push(cur);
-                cur = cur->left;
-            }else{
-                cur = s.top()->right;
-                s.pop();
+        if (root) q.push(root);
+        while (!q.empty()) {
+            ans.push_back(q.back()->val);
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                auto* cur = q.front();
+                q.pop();
+                if (cur->left) q.push(cur->left);
+                if (cur->right) q.push(cur->right);
             }
         }
         return ans;

@@ -18,8 +18,19 @@
  */
 class Solution {
 public:
-    int maxPathSum(TreeNode* root) {
+    int dfs(TreeNode* root, int& maxn) {
+        if (root == nullptr) return 0;
+        int left_max = dfs(root->left, maxn);
+        int right_max = dfs(root->right, maxn);
+        int cur = root->val;
+        maxn = max(maxn, cur + (left_max > 0 ? left_max : 0) + (right_max > 0 ? right_max : 0));
+        return cur + max(left_max > 0 ? left_max : 0, right_max > 0 ? right_max : 0);
+    }
 
+    int maxPathSum(TreeNode* root) {
+        int maxn = root ? root->val : 0;
+        dfs(root, maxn);
+        return maxn;
     }
 };
 // @lc code=end
